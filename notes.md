@@ -26,9 +26,26 @@ DD MM YYYY, DD MM YYYY, difference
 - Gregorian Calender
 - Difference output is absolute
 
-## Leap Years
+## Gregorian Calender
+
+There are 12 months in a year with the following day lengths:
+
+- 01: 31 days, January
+- 02: 28 days, February (29 days on leap years)
+- 03: 31, March
+- 04: 30, April
+- 05: 31, May
+- 06: 30, June
+- 07: 31, July
+- 08: 31, August
+- 09: 30, September
+- 10: 31, October
+- 11: 30, November
+- 12: 31, December
+
+### Leap Years
 
 Most years are of length 365 days with leap years being 366 days.
 Leap years are defined as years divisible by 4, and if also divisible by 100,
 then it also needs to be divisible by 400 as well.
-Within the limits, the only special year is 1900, which is not a leap year.
+Within the limits, the year is 1900 is not a leap year and the year 2000 is.
