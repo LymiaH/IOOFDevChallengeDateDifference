@@ -16,23 +16,26 @@ private fun isLeapYear(year: Int): Boolean {
 /**
  * Calculates the days in a month.
  */
-private fun daysInMonth(year: Int, month: Int): Int {
-    return when (month) {
-        1 -> 31
-        2 -> if (isLeapYear(year)) 29 else 28
-        3 -> 31
-        4 -> 30
-        5 -> 31
-        6 -> 30
-        7 -> 31
-        8 -> 31
-        9 -> 30
-        10 -> 31
-        11 -> 30
-        12 -> 31
-        else -> throw throw InvalidInputException("Month $month is out of range [1, 12]")
-    }
+private fun daysInMonth(year: Int, month: Int): Int = when (month) {
+    1 -> 31
+    2 -> if (isLeapYear(year)) 29 else 28
+    3 -> 31
+    4 -> 30
+    5 -> 31
+    6 -> 30
+    7 -> 31
+    8 -> 31
+    9 -> 30
+    10 -> 31
+    11 -> 30
+    12 -> 31
+    else -> throw throw InvalidInputException("Month $month is out of range [1, 12]")
 }
+
+/**
+ * Calculates the days in a year.
+ */
+private fun daysInYear(year: Int) = if (isLeapYear(year)) 366 else 365
 
 /**
  * Checks that the year is between 1900 and 2010 inclusive.
@@ -50,6 +53,42 @@ private fun checkDate(date: Date) {
 
 /**
  * Calculates the absolute difference in days from the start to end date.
+ * Does not validate dates.
+ * Expects the start date to always be earlier or equal to the end date.
+ * Performance is O(deltaYear + deltaMonth)
+ */
+private fun dateDiffInternal(start: Date, end: Date): Int = when (start.year) {
+    // When the years are equal
+    end.year -> when (start.month) {
+        // And the month is equal, we just get the difference between the days
+        end.month -> end.day - start.day
+        // If just the year is equal
+        else -> {
+            val monthDiff = (start.month until end.month).map { daysInMonth(start.year, it) }.sum()
+            val startMonth = Date(start.year, start.month, 1)
+            val startOff = dateDiffInternal(startMonth, start)
+            val endMonth = Date(end.year, end.month, 1)
+            val endOff = dateDiffInternal(endMonth, end)
+            // The difference is the days between the months - start offset + end offset
+            // offset is from the beginning of the month to the day of the same month
+            monthDiff - startOff + endOff
+        }
+    }
+    // If the year is not equal
+    else -> {
+        val yearDiff = (start.year until end.year).map { daysInYear(it) }.sum()
+        val startYear = Date(start.year, 1, 1)
+        val startOff = dateDiffInternal(startYear, start)
+        val endYear = Date(end.year, 1, 1)
+        val endOff = dateDiffInternal(endYear, end)
+        // The difference is the days between the years - start offset + end offset
+        // offset is from the beginning of the year to the day and month of the same
+        yearDiff - startOff + endOff
+    }
+}
+
+/**
+ * Calculates the absolute difference in days from the start to end date.
  * Also returns the dates sorted chronologically.
  * Validates the given dates.
  */
@@ -59,9 +98,7 @@ fun dateDiff(start: Date, end: Date): DateDiffResult {
     checkDate(start)
     checkDate(end)
 
-    // TODO: Calculate difference
-
-    return DateDiffResult(start, end, 0)
+    return DateDiffResult(start, end, dateDiffInternal(start, end))
 }
 
 /**
