@@ -82,7 +82,7 @@ private fun dateDiffInternal(start: Date, end: Date): Int = when (start.year) {
         val endYear = Date(end.year, 1, 1)
         val endOff = dateDiffInternal(endYear, end)
         // The difference is the days between the years - start offset + end offset
-        // offset is from the beginning of the year to the day and month of the same
+        // offset is from the beginning of the year to the day and month of the same year
         yearDiff - startOff + endOff
     }
 }
