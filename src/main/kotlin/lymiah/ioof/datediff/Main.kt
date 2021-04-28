@@ -4,6 +4,50 @@ import java.io.BufferedReader
 import java.io.FileReader
 import java.io.PrintStream
 
+
+/**
+ * Checks if the year is a leap year.
+ * Leap years are divisible by 4 except if they are also divisible by 100 and not by 400.
+ */
+private fun isLeapYear(year: Int): Boolean {
+    return year % 4 == 0 && if (year % 100 == 0) year % 400 == 0 else true
+}
+
+/**
+ * Calculates the days in a month.
+ */
+private fun daysInMonth(year: Int, month: Int): Int {
+    return when (month) {
+        1 -> 31
+        2 -> if (isLeapYear(year)) 29 else 28
+        3 -> 31
+        4 -> 30
+        5 -> 31
+        6 -> 30
+        7 -> 31
+        8 -> 31
+        9 -> 30
+        10 -> 31
+        11 -> 30
+        12 -> 31
+        else -> throw throw InvalidInputException("Month $month is out of range [1, 12]")
+    }
+}
+
+/**
+ * Checks that the year is between 1900 and 2010 inclusive.
+ * Checks that the month is between 1 and 12 inclusive.
+ * Checks that the day is between 1 and the number of days in the given month.
+ * @throws InvalidInputException if any of the above checks fail
+ */
+private fun checkDate(date: Date) {
+    if (date.year < 1900 || date.year > 2010) throw InvalidInputException("Year ${date.year} is out of range [1900, 2010]")
+    if (date.month < 1 || date.month > 12) throw InvalidInputException("Month ${date.month} is out of range [1, 12]")
+    if (date.day < 1) throw InvalidInputException("Day ${date.day} should be at least 1")
+    val days = daysInMonth(date.year, date.month)
+    if (date.day < 1 || date.day > days) throw InvalidInputException("Day ${date.day} should be at most $days for ${date.year}/${date.month}")
+}
+
 /**
  * Calculates the absolute difference in days from the start to end date.
  * Also returns the dates sorted chronologically.
@@ -12,7 +56,8 @@ import java.io.PrintStream
 fun dateDiff(start: Date, end: Date): DateDiffResult {
     if (start > end) return dateDiff(end, start)
 
-    // TODO: Check Dates
+    checkDate(start)
+    checkDate(end)
 
     // TODO: Calculate difference
 
@@ -42,7 +87,8 @@ private fun processLine(line: String, out: PrintStream) {
         Date(match.parseNum("year1"), match.parseNum("month1"), match.parseNum("day1")),
         Date(match.parseNum("year2"), match.parseNum("month2"), match.parseNum("day2"))
     )
-    // TODO: print out results
+
+    out.println(result)
 }
 
 fun processInput(input: BufferedReader, out: PrintStream) {
