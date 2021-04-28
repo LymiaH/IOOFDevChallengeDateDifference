@@ -114,7 +114,8 @@ val INPUT_REGEX =
  */
 private fun MatchResult.parseNum(name: String): Int {
     val group = this.groups[name] ?: throw InvalidInputException("Group $name not present")
-    return group.value.trimStart('0').toIntOrNull() ?: throw InvalidInputException("Cannot parse ${group.value}")
+    return group.value.trimStart('0').padStart(1, '0').toIntOrNull()
+        ?: throw InvalidInputException("Cannot parse ${group.value}")
 }
 
 private fun processLine(line: String, out: PrintStream) {
@@ -128,7 +129,7 @@ private fun processLine(line: String, out: PrintStream) {
     out.println(result)
 }
 
-fun processInput(input: BufferedReader, out: PrintStream) {
+private fun processInput(input: BufferedReader, out: PrintStream) {
     while (true) {
         val line = input.readLine() ?: return
         processLine(line, out)
