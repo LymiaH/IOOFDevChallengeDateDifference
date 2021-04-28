@@ -17,7 +17,8 @@ class TestValidRanges {
             val start = Date(it, 1, 1)
             val end = Date(it, 12, 31)
             val result = dateDiff(start, end)
-            assert(result.diff == DAYS_IN_YEAR) { "Expected normal year $it to have $DAYS_IN_YEAR but got ${result.diff}" }
+            val days = result.diff + 1
+            assert(days == DAYS_IN_YEAR) { "Expected normal year $it to have $DAYS_IN_YEAR but got $days" }
         }
     }
 
@@ -27,7 +28,8 @@ class TestValidRanges {
             val start = Date(it, 1, 1)
             val end = Date(it, 12, 31)
             val result = dateDiff(start, end)
-            assert(result.diff == DAYS_IN_LEAP_YEAR) { "Expected leap year $it to have $DAYS_IN_LEAP_YEAR but got ${result.diff}" }
+            val days = result.diff + 1
+            assert(days == DAYS_IN_LEAP_YEAR) { "Expected leap year $it to have $DAYS_IN_LEAP_YEAR but got $days" }
         }
     }
 
