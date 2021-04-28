@@ -48,4 +48,4 @@ There are 12 months in a year with the following day lengths:
 Most years are of length 365 days with leap years being 366 days.
 Leap years are defined as years divisible by 4, and if also divisible by 100,
 then it also needs to be divisible by 400 as well.
-Within the limits, the year is 1900 is not a leap year and the year 2000 is.
+Within the limits, the year 1900 is not a leap year, but the year 2000 is.
