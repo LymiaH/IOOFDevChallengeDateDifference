@@ -18,6 +18,9 @@ application {
 }
 
 tasks {
+    named("run", JavaExec::class) {
+        standardInput = System.`in`
+    }
     test {
         useJUnitPlatform()
     }
