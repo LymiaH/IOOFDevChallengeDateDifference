@@ -48,7 +48,7 @@ class TestValidRanges {
     }
 
     @Test
-    fun `Months in a leap year are correct`() {
+    fun `Months in a leap year have the correct number of days`() {
         DAYS_IN_MONTHS_LEAP_YEAR.forEachIndexed { idx, days ->
             val month = idx + 1
             val start = Date(LEAP_YEAR, month, 1)
