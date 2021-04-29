@@ -48,7 +48,7 @@ private fun checkDate(date: Date) {
     if (date.month < 1 || date.month > 12) throw InvalidInputException("Month ${date.month} is out of range [1, 12]")
     if (date.day < 1) throw InvalidInputException("Day ${date.day} should be at least 1")
     val days = daysInMonth(date.year, date.month)
-    if (date.day < 1 || date.day > days) throw InvalidInputException("Day ${date.day} should be at most $days for ${date.year}/${date.month}")
+    if (date.day > days) throw InvalidInputException("Day ${date.day} should be at most $days for ${date.year}/${date.month}")
 }
 
 /**
